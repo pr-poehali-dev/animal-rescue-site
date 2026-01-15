@@ -123,7 +123,7 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Icon name="Pawprint" className="text-primary" size={28} />
-              <span className="text-xl font-bold text-primary">Помощь животным</span>
+              <span className="text-xl font-bold text-primary">Продукт проекта</span>
             </div>
             <div className="hidden md:flex items-center gap-8">
               <a href="#home" className="text-foreground hover:text-primary transition-colors">Главная</a>
