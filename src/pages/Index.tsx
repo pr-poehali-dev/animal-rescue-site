@@ -2,9 +2,30 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Icon from "@/components/ui/icon";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const Index = () => {
   const navigate = useNavigate();
+  const [showAboutDialog, setShowAboutDialog] = useState(false);
+
+  const handleSubmitForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast.success("Сообщение отправлено!", {
+      description: "Мы свяжемся с вами в ближайшее время",
+    });
+  };
+
+  const scrollToAnimals = () => {
+    document.getElementById('animals')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const animals = [
     {
@@ -126,10 +147,10 @@ const Index = () => {
                 Каждое животное заслуживает любовь и заботу. Помогите нам сделать их жизнь лучше.
               </p>
               <div className="flex gap-4">
-                <Button size="lg" className="bg-primary hover:bg-primary/90">
+                <Button size="lg" className="bg-primary hover:bg-primary/90" onClick={scrollToAnimals}>
                   Помочь сейчас
                 </Button>
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="outline" onClick={() => setShowAboutDialog(true)}>
                   Узнать больше
                 </Button>
               </div>
@@ -263,7 +284,7 @@ const Index = () => {
             </Card>
             <Card className="p-8">
               <h3 className="font-bold mb-4">Напишите нам</h3>
-              <form className="space-y-4">
+              <form className="space-y-4" onSubmit={handleSubmitForm}>
                 <input 
                   type="text" 
                   placeholder="Ваше имя" 
@@ -279,7 +300,7 @@ const Index = () => {
                   rows={4}
                   className="w-full px-4 py-3 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
-                <Button className="w-full bg-primary hover:bg-primary/90">
+                <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
                   Отправить
                 </Button>
               </form>
@@ -339,6 +360,44 @@ const Index = () => {
           </div>
         </div>
       </footer>
+
+      <Dialog open={showAboutDialog} onOpenChange={setShowAboutDialog}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-2xl flex items-center gap-2">
+              <Icon name="Pawprint" className="text-primary" size={28} />
+              О нашем сайте
+            </DialogTitle>
+            <DialogDescription className="text-base space-y-4 pt-4">
+              <p className="text-foreground leading-relaxed">
+                <strong>«Помощь животным»</strong> — это благотворительный проект, созданный для спасения бездомных собак и кошек. Наша цель — найти любящий дом для каждого питомца.
+              </p>
+              <p className="text-foreground leading-relaxed">
+                На этом сайте вы можете:
+              </p>
+              <ul className="list-disc list-inside space-y-2 text-foreground">
+                <li>Познакомиться с животными, которые ищут дом</li>
+                <li>Узнать подробную информацию о каждом питомце</li>
+                <li>Связаться с нами для усыновления</li>
+                <li>Помочь финансово или стать волонтёром</li>
+                <li>Следить за нашими новостями в социальных сетях</li>
+              </ul>
+              <p className="text-foreground leading-relaxed">
+                За 10 лет работы мы помогли более 2000 животным обрести новый дом. Присоединяйтесь к нашей миссии — каждое животное заслуживает любовь и заботу!
+              </p>
+              <div className="flex gap-3 pt-4">
+                <Button onClick={scrollToAnimals} className="bg-primary hover:bg-primary/90">
+                  <Icon name="Heart" className="mr-2" size={18} />
+                  Посмотреть животных
+                </Button>
+                <Button variant="outline" onClick={() => setShowAboutDialog(false)}>
+                  Закрыть
+                </Button>
+              </div>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
