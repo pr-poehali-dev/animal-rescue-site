@@ -1,26 +1,91 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Icon from "@/components/ui/icon";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
+
   const animals = [
     {
+      id: "1",
       name: "Рекс",
       age: "3 года",
+      breed: "Метис",
       description: "Добрый и игривый пёс, который ищет любящую семью",
       image: "https://cdn.poehali.dev/projects/a2cc21bb-f1ec-43c3-b0b1-fcbd16aea613/files/ee43725f-1156-41a2-b6a4-0a776c57f3b8.jpg"
     },
     {
+      id: "2",
       name: "Мурка",
       age: "2 года",
+      breed: "Рыжая кошка",
       description: "Ласковая кошечка, которая любит тепло и уют",
       image: "https://cdn.poehali.dev/projects/a2cc21bb-f1ec-43c3-b0b1-fcbd16aea613/files/10a55517-1858-4cdb-8429-c65819b893c2.jpg"
     },
     {
+      id: "3",
       name: "Бобик",
       age: "1 год",
+      breed: "Щенок метиса",
       description: "Энергичный щенок, готовый дарить радость каждый день",
       image: "https://cdn.poehali.dev/projects/a2cc21bb-f1ec-43c3-b0b1-fcbd16aea613/files/a5a441c3-c206-466e-a206-56d677a48d0b.jpg"
+    },
+    {
+      id: "4",
+      name: "Барон",
+      age: "4 года",
+      breed: "Метис овчарки",
+      description: "Благородный и умный пёс, отлично подходит для охраны",
+      image: "https://cdn.poehali.dev/projects/a2cc21bb-f1ec-43c3-b0b1-fcbd16aea613/files/0743b753-09ac-4462-b998-2c17e29613eb.jpg"
+    },
+    {
+      id: "5",
+      name: "Снежка",
+      age: "1.5 года",
+      breed: "Белая пушистая кошка",
+      description: "Нежная белоснежная красавица, очень чистоплотная",
+      image: "https://cdn.poehali.dev/projects/a2cc21bb-f1ec-43c3-b0b1-fcbd16aea613/files/287d6056-10a9-42f1-b624-b7b873212212.jpg"
+    },
+    {
+      id: "6",
+      name: "Джек",
+      age: "2.5 года",
+      breed: "Бордер-колли метис",
+      description: "Умный и энергичный пёс, обожает активные прогулки",
+      image: "https://cdn.poehali.dev/projects/a2cc21bb-f1ec-43c3-b0b1-fcbd16aea613/files/65e6909f-a9ca-479b-9fcf-d0282b1ab460.jpg"
+    },
+    {
+      id: "7",
+      name: "Тишка",
+      age: "6 месяцев",
+      breed: "Серый полосатый котёнок",
+      description: "Игривый котёнок, который подарит массу радости",
+      image: "https://cdn.poehali.dev/projects/a2cc21bb-f1ec-43c3-b0b1-fcbd16aea613/files/84cad932-f155-4423-b920-3447081242f2.jpg"
+    },
+    {
+      id: "8",
+      name: "Лаки",
+      age: "8 месяцев",
+      breed: "Щенок ретривера",
+      description: "Солнечный и добрый щенок, идеален для семей с детьми",
+      image: "https://cdn.poehali.dev/projects/a2cc21bb-f1ec-43c3-b0b1-fcbd16aea613/files/3132f594-0bf3-4b1b-bf2b-8b7ae695f6a1.jpg"
+    },
+    {
+      id: "9",
+      name: "Багира",
+      age: "3 года",
+      breed: "Чёрная кошка",
+      description: "Грациозная и независимая кошка, спокойная и элегантная",
+      image: "https://cdn.poehali.dev/projects/a2cc21bb-f1ec-43c3-b0b1-fcbd16aea613/files/842286c4-5f91-4601-a005-855489ddb910.jpg"
+    },
+    {
+      id: "10",
+      name: "Шарик",
+      age: "2 года",
+      breed: "Терьер метис",
+      description: "Весёлый и энергичный малыш, всегда поднимет настроение",
+      image: "https://cdn.poehali.dev/projects/a2cc21bb-f1ec-43c3-b0b1-fcbd16aea613/files/a350cd41-8cd5-4991-bafd-46448860c113.jpg"
     }
   ];
 
@@ -114,20 +179,24 @@ const Index = () => {
               Познакомьтесь с животными, которые ждут своего дома
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {animals.map((animal, index) => (
-              <Card key={index} className="overflow-hidden hover:shadow-xl transition-shadow animate-fade-in">
+          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {animals.map((animal) => (
+              <Card 
+                key={animal.id} 
+                className="overflow-hidden hover:shadow-xl transition-all cursor-pointer animate-fade-in hover:scale-105"
+                onClick={() => navigate(`/animal/${animal.id}`)}
+              >
                 <img 
                   src={animal.image} 
                   alt={animal.name}
                   className="w-full h-64 object-cover"
                 />
                 <CardContent className="p-6">
-                  <h3 className="text-2xl font-bold mb-2">{animal.name}</h3>
+                  <h3 className="text-xl font-bold mb-1">{animal.name}</h3>
+                  <p className="text-sm text-muted-foreground mb-2">{animal.breed}</p>
                   <p className="text-primary font-semibold mb-3">{animal.age}</p>
-                  <p className="text-muted-foreground mb-4">{animal.description}</p>
                   <Button className="w-full bg-secondary hover:bg-secondary/90">
-                    Познакомиться
+                    Подробнее
                   </Button>
                 </CardContent>
               </Card>
