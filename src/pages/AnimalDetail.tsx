@@ -2,6 +2,17 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Icon from "@/components/ui/icon";
+import { useState } from "react";
+import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 interface Animal {
   id: string;
@@ -142,8 +153,39 @@ const animalsData: Animal[] = [
 const AnimalDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [showAdoptForm, setShowAdoptForm] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    message: ''
+  });
   
   const animal = animalsData.find(a => a.id === id);
+
+  const handleSubmitAdoptForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast.success("Заявка отправлена!", {
+      description: `Спасибо за интерес к ${animal?.name}! Мы свяжемся с вами в ближайшее время.`,
+    });
+    setShowAdoptForm(false);
+    setFormData({ name: '', phone: '', email: '', message: '' });
+  };
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: `Познакомьтесь с ${animal?.name}`,
+        text: `${animal?.description}`,
+        url: window.location.href,
+      });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      toast.success("Ссылка скопирована!", {
+        description: "Поделитесь ссылкой с друзьями",
+      });
+    }
+  };
 
   if (!animal) {
     return (
@@ -253,11 +295,20 @@ const AnimalDetail = () => {
               </Card>
 
               <div className="flex gap-4">
-                <Button size="lg" className="flex-1 bg-primary hover:bg-primary/90">
+                <Button 
+                  size="lg" 
+                  className="flex-1 bg-primary hover:bg-primary/90"
+                  onClick={() => setShowAdoptForm(true)}
+                >
                   <Icon name="Heart" size={20} className="mr-2" />
                   Я хочу забрать домой
                 </Button>
-                <Button size="lg" variant="outline" className="flex-1">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="flex-1"
+                  onClick={handleShare}
+                >
                   <Icon name="Share2" size={20} className="mr-2" />
                   Поделиться
                 </Button>
@@ -289,6 +340,74 @@ const AnimalDetail = () => {
           </div>
         </div>
       </section>
+
+      <Dialog open={showAdoptForm} onOpenChange={setShowAdoptForm}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-2xl flex items-center gap-2">
+              <Icon name="Heart" className="text-primary" size={28} />
+              Заявка на усыновление {animal?.name}
+            </DialogTitle>
+            <DialogDescription className="text-base pt-2">
+              Заполните форму, и мы свяжемся с вами для обсуждения деталей усыновления
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmitAdoptForm} className="space-y-4 pt-4">
+            <div>
+              <label className="text-sm font-semibold mb-2 block">Ваше имя *</label>
+              <Input 
+                required
+                placeholder="Иван Иванов"
+                value={formData.name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold mb-2 block">Телефон *</label>
+              <Input 
+                required
+                type="tel"
+                placeholder="+7 (999) 123-45-67"
+                value={formData.phone}
+                onChange={(e) => setFormData({...formData, phone: e.target.value})}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold mb-2 block">Email *</label>
+              <Input 
+                required
+                type="email"
+                placeholder="example@mail.ru"
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold mb-2 block">Расскажите о себе</label>
+              <Textarea 
+                placeholder="Есть ли у вас опыт содержания животных? Есть ли другие питомцы? Условия проживания..."
+                rows={4}
+                value={formData.message}
+                onChange={(e) => setFormData({...formData, message: e.target.value})}
+              />
+            </div>
+            <div className="flex gap-3 pt-2">
+              <Button type="submit" className="flex-1 bg-primary hover:bg-primary/90">
+                <Icon name="Send" className="mr-2" size={18} />
+                Отправить заявку
+              </Button>
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => setShowAdoptForm(false)}
+                className="flex-1"
+              >
+                Отмена
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
