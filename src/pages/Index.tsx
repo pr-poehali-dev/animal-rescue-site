@@ -227,20 +227,40 @@ const Index = () => {
               <span className="text-xl font-bold">Помощь животным</span>
             </div>
             <div className="flex items-center gap-6">
-              <a href="https://vk.com" target="_blank" rel="noopener noreferrer" 
-                 className="hover:opacity-80 transition-opacity">
+              <a 
+                href="https://vk.com/public123456789" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:opacity-80 hover:scale-110 transition-all duration-200"
+                aria-label="ВКонтакте"
+              >
                 <Icon name="Facebook" size={24} />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" 
-                 className="hover:opacity-80 transition-opacity">
+              <a 
+                href="https://instagram.com/help_animals_org" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:opacity-80 hover:scale-110 transition-all duration-200"
+                aria-label="Instagram"
+              >
                 <Icon name="Instagram" size={24} />
               </a>
-              <a href="https://t.me" target="_blank" rel="noopener noreferrer" 
-                 className="hover:opacity-80 transition-opacity">
+              <a 
+                href="https://t.me/help_animals_channel" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:opacity-80 hover:scale-110 transition-all duration-200"
+                aria-label="Telegram"
+              >
                 <Icon name="Send" size={24} />
               </a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" 
-                 className="hover:opacity-80 transition-opacity">
+              <a 
+                href="https://youtube.com/@HelpAnimals" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:opacity-80 hover:scale-110 transition-all duration-200"
+                aria-label="YouTube"
+              >
                 <Icon name="Youtube" size={24} />
               </a>
             </div>
